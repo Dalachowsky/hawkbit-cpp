@@ -2,6 +2,8 @@
 #include "common.hpp"
 #include "definitions.hpp"
 
+#include <regex>
+
 #define GET_OPTIONAL(dst, json, key)                                           \
   if (j.contains(key)) {                                                       \
     dst = json.at(key);                                                        \
@@ -573,14 +575,17 @@ template <> DdiCancel fromJSON<DdiCancel>(const nl::json &j) {
 template <> DdiPolling fromJSON<DdiPolling>(const nl::json &j) {
   DdiPolling polling;
   auto parseSleep = [&](std::string str) {
-    std::istringstream in{str};
-    std::chrono::seconds sleep;
-    in >> std::chrono::parse("%T", sleep);
-    if (in.fail()) {
-      // TODO throw
-      // std::cout << "Parse failed\n";
-    }
-    return sleep;
+    static const std::regex pattern(R"(^([0-9]{2}):([0-9]{2}):([0-9]{2})$)");
+    std::smatch match;
+    if (!std::regex_match(str, match, pattern))
+      throw std::runtime_error(
+          fmt::format("Cannot parse sleep: {}. Invalid format", str));
+
+    unsigned hours = std::stoi(match[1].str());
+    unsigned minutes = std::stoi(match[2].str());
+    unsigned seconds = std::stoi(match[3].str());
+
+    return std::chrono::seconds(hours * 3600 + minutes * 60 + seconds);
   };
 
   std::string sleep = j.at("sleep");

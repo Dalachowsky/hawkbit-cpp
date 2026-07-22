@@ -9,7 +9,7 @@ target_link_libraries(
     GTest::gtest_main
     GTest::gmock
     nlohmann_json::nlohmann_json
-    fmt
+    fmt::fmt
     hawkbit-cpp
 )
 target_include_directories(

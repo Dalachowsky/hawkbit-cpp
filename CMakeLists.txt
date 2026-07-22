@@ -8,7 +8,13 @@ FetchContent_Declare(
   json 
   URL https://github.com/nlohmann/json/releases/download/v3.11.3/json.tar.xz
 )
+FetchContent_Declare(
+  fmt
+  GIT_REPOSITORY https://github.com/fmtlib/fmt.git
+  GIT_TAG 11.0.2
+)
 FetchContent_MakeAvailable(json)
+FetchContent_MakeAvailable(fmt)
 
 option(BUILD_TESTS "Build tests")
 
@@ -33,6 +39,7 @@ target_include_directories(hawkbit-cpp
 )
 target_link_libraries(hawkbit-cpp
     nlohmann_json::nlohmann_json
+    fmt::fmt
 )
 
 # ======================================================
