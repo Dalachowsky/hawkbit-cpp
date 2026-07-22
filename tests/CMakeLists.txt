@@ -3,6 +3,7 @@ FetchContent_Declare(
     googletest
     URL https://github.com/google/googletest/archive/${GOOGLETEST_REV}.zip
 )
+set(gtest_build_tests OFF CACHE BOOL "" FORCE)
 FetchContent_MakeAvailable(googletest)
 
 include(GoogleTest)
