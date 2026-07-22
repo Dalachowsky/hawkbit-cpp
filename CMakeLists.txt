@@ -4,8 +4,6 @@ project(hawkbit-cpp VERSION 0.1.0)
 
 include(FetchContent)
 
-find_package(Poco REQUIRED Net)
-
 FetchContent_Declare(
   json 
   URL https://github.com/nlohmann/json/releases/download/v3.11.3/json.tar.xz
@@ -25,8 +23,6 @@ set(CMAKE_CXX_FLAGS "-Wall -Wno-unused-result")
 
 configure_file(version.h.in version.h)
 add_library(hawkbit-cpp 
-    ${PROJECT_SOURCE_DIR}/src/main.cpp
-    ${PROJECT_SOURCE_DIR}/src/hawkbit/api/HawkbitApiDdiV1.cpp
     ${PROJECT_SOURCE_DIR}/src/hawkbit/dto/parsing_logic.cpp
     ${PROJECT_SOURCE_DIR}/src/hawkbit/dto/serialization_logic.cpp
 )
@@ -37,7 +33,6 @@ target_include_directories(hawkbit-cpp
 )
 target_link_libraries(hawkbit-cpp
     nlohmann_json::nlohmann_json
-    Poco::Net
 )
 
 # ======================================================
