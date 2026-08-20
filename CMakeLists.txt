@@ -16,6 +16,8 @@ FetchContent_Declare(
 FetchContent_MakeAvailable(json)
 FetchContent_MakeAvailable(fmt)
 
+find_package(Poco REQUIRED Net)
+
 option(BUILD_TESTS "Build tests")
 
 set(CMAKE_CXX_STANDARD 20)
@@ -29,6 +31,8 @@ set(CMAKE_CXX_FLAGS "-Wall -Wno-unused-result")
 
 configure_file(version.h.in version.h)
 add_library(hawkbit-cpp 
+    ${PROJECT_SOURCE_DIR}/src/hawkbit/api/HawkbitApiDdiV1.cpp
+    ${PROJECT_SOURCE_DIR}/src/hawkbit/api/HttpClient.cpp
     ${PROJECT_SOURCE_DIR}/src/hawkbit/dto/parsing_logic.cpp
     ${PROJECT_SOURCE_DIR}/src/hawkbit/dto/serialization_logic.cpp
 )
@@ -40,6 +44,7 @@ target_include_directories(hawkbit-cpp
 target_link_libraries(hawkbit-cpp
     nlohmann_json::nlohmann_json
     fmt::fmt
+    Poco::Net
 )
 
 # ======================================================
