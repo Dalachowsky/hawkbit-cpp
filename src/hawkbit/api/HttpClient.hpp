@@ -13,6 +13,8 @@ namespace hawkbit::api {
 struct HttpResponse {
   int code;
   std::variant<std::string> data;
+
+  bool isSuccess() const { return code >= 200 && code < 300; }
 };
 
 class HttpClient {

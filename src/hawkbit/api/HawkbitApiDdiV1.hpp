@@ -76,6 +76,7 @@ private:
 
   HttpClient client;
 
+  DdiResponse handleClientError(const HttpResponse &res);
   DdiResponse returnExceptionInfo(const HttpResponse &res);
   template <typename DtoType>
   DdiResponse returnParsedDTO(const HttpResponse &res) {

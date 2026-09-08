@@ -18,7 +18,7 @@ enum ResponseStatus {
 };
 
 using ResponseData =
-    std::variant<dto::DdiAssignedVersion, dto::DdiConfigData,
+    std::variant<std::monostate, dto::DdiAssignedVersion, dto::DdiConfigData,
                  dto::DdiActionFeedback, dto::DdiConfirmationFeedback,
                  dto::DdiActivateAutoConfirmation, dto::DdiControllerBase,
                  dto::DdiArtifact, dto::DdiDeploymentBase,
@@ -28,7 +28,11 @@ using ResponseData =
 struct DdiResponse {
   ResponseStatus status;
   int code;
-  std::optional<ResponseData> data;
+  ResponseData data{std::monostate{}};
+
+  bool holdsData() const {
+    return !std::holds_alternative<std::monostate>(data);
+  }
 };
 
 class IHawkbitDdiV1 {
